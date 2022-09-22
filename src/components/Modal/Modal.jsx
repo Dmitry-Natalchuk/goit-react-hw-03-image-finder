@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom';
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import s from "./Modal.module.css"
 
 const modalRoot = document.querySelector('#modal-root');
@@ -28,9 +29,17 @@ handleBackdrop = (event) => {
 render(){
     return createPortal(
     <div className={s.overlay} onClick={this.handleBackdrop}>
-        <div className={s.modal}>{this.props.children}</div>
+        <div className={s.modal}>
+            <img src={this.props.url} alt="Images" />
+        </div>
     </div>,
       modalRoot
     )
  };
 }
+
+Modal.propTypes = {
+    showModal: PropTypes.func.isRequired,
+    url: PropTypes.string.isRequired,
+}
+    

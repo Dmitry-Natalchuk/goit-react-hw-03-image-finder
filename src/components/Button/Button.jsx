@@ -2,15 +2,18 @@ import PropTypes from 'prop-types';
 import s from "./Button.module.css"
 
 
-export const Button = ({children,onLoadClick}) => {
+export const Button = ({onLoadMore, isLoading}) => {
 
     return(
-        <button className={s.button} type='button' onClick={() => onLoadClick}>
-            {children}
+        <button className={s.button}
+        type='button' 
+        onClick={onLoadMore} 
+        disabled={isLoading}>
+           Load more
         </button>
     )
 }
 Button.propTypes = {
-    onLoadClick: PropTypes.func,
-    children: PropTypes.string,
+    onLoadMore: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   };
