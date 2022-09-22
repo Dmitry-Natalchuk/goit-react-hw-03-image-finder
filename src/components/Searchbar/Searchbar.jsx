@@ -9,30 +9,28 @@ export class Searchbar extends Component {
     }
 
     changInput = (event) => {
-        this.setState({ queryInput: event.currentTarget.value.toLowerCase().trim()});
-    }
-
-    formSubmit = (event) => {
-        event.preventDefault();
-        const {queryInput} = this.state
-        if(queryInput.trim() === ""){
-            this.props.value()
-            return
-        }
-        this.props.onSubmit(queryInput)
-        this.reset()
+        this.setState({ 
+            queryInput: event.target.value,
+        });
     }
 
     reset = () => {
         this.setState({ queryInput: "" });
       };
 
-render() {
+    render() {
     const {queryInput} = this.state
+    const { isLoading,onSubmit } = this.props;
     return (
         <header className={s.searchbar}>
-            <form className={s.searchForm} onSubmit={this.formSubmit}>
-                <button type="submit" className={s.searchFormButton}>
+            <form className={s.searchForm} onSubmit={(event) => {
+                event.preventDefault()
+                onSubmit(queryInput)
+                this.reset()
+            }}>
+                <button type="submit" 
+                className={s.searchFormButton}
+                disabled = {isLoading}>
                     <FcSearch/>
                 </button>
                 <input
@@ -52,4 +50,5 @@ render() {
 }
 Searchbar.propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    isLoading : PropTypes.bool.isRequired,
 }
