@@ -30,7 +30,7 @@ render(){
     return createPortal(
     <div className={s.overlay} onClick={this.handleBackdrop}>
         <div className={s.modal}>
-            <img src={this.props.url} alt="Images" />
+            <img src={this.props.url} alt="" />
         </div>
     </div>,
       modalRoot
@@ -38,8 +38,8 @@ render(){
  };
 }
 
-Modal.propTypes = {
+ Modal.propTypes = {
     showModal: PropTypes.func.isRequired,
     url: PropTypes.string.isRequired,
-}
+} 
     

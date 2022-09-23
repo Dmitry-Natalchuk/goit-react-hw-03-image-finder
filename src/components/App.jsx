@@ -1,5 +1,8 @@
 import { Component } from "react";
- import {galleryApi} from "../helpers/galleryAPI"
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import {galleryApi} from "../helpers/galleryAPI"
 import { Loader } from "./Loader/Loader";
 import { Modal } from "./Modal/Modal";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
@@ -37,14 +40,14 @@ export class App extends Component {
 
   formSubmit = (queryInput) => {
     if (queryInput.trim().length === 0) {
-      return
+      return toast.warn('The search string cannot be empty. Please specify your search query.')
     }
-    this.setState({
-      queryInput,
-      page: 1,
-      gallery: [],
-  })
-  }
+      this.setState({
+        queryInput,
+        page: 1,
+        gallery: [],
+      })
+    }
 
   itemImgGallery = async (query, page) => {
     try {
@@ -52,13 +55,16 @@ export class App extends Component {
         isLoading : true,
       })
       const list = await galleryApi(query,page)
+      if(list.length === 0 ) {
+          return toast.error('Sorry, there are no images matching your search query. Please try again.')
+      }
       this.setState(prevState => ({
         gallery : [...prevState.gallery, ...list],
         isLoading: false,
       }))
     }
     catch(error) {
-      console.log(error)
+      console.log(error.message)
     }
     finally {
       this.setState({
@@ -82,8 +88,19 @@ export class App extends Component {
     {gallery.length > 0 && <ImageGallery image={gallery} onClick={this.onOpenModal}/>}
     {isLoading && <Loader/>}
     {gallery.length > 0 && <Button onLoadMore= {this.onLoadMore} isLoading={isLoading}/>}
-    {modalGallery && <Modal showModal = {this.onModalClose} url ={this.onOpenModal}/>} 
-
+    {modalGallery && <Modal showModal = {this.onModalClose} url ={modalGallery}/>} 
+    <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+    />
     </>
     )
    }

@@ -28,20 +28,19 @@ export class Searchbar extends Component {
                 onSubmit(queryInput)
                 this.reset()
             }}>
-                <button type="submit" 
-                className={s.searchFormButton}
-                disabled = {isLoading}>
-                    <FcSearch/>
-                </button>
                 <input
                 className={s.searchFormInput}
                 type="text"
                 value={queryInput}
                 onChange = {this.changInput}
-                autocomplete="off"
-                autofocus
+                autoFocus/* ={true} */
                 placeholder="Search images and photos"
                 />
+                 <button type="submit" 
+                className={s.searchFormButton}
+                disabled = {isLoading}>
+                    <FcSearch/>
+                </button>
             </form>
         </header>
     )
