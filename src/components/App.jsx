@@ -1,5 +1,5 @@
 import { Component } from "react";
- import * as API from "../helpers/galleryAPI"
+ import {galleryApi} from "../helpers/galleryAPI"
 import { Loader } from "./Loader/Loader";
 import { Modal } from "./Modal/Modal";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
@@ -18,7 +18,7 @@ export class App extends Component {
 
   componentDidUpdate(_,prevState) {
     const {page,queryInput} = this.state
-    if(prevState.page !== page || prevState.query !== queryInput) {
+    if(prevState.page !== page || prevState.queryInput !== queryInput) {
       this.itemImgGallery(queryInput,page)
     }
   };
@@ -51,7 +51,7 @@ export class App extends Component {
       this.setState({
         isLoading : true,
       })
-      const list = await API.galleryApi(query,page)
+      const list = await galleryApi(query,page)
       this.setState(prevState => ({
         gallery : [...prevState.gallery, ...list],
         isLoading: false,
@@ -82,7 +82,7 @@ export class App extends Component {
     {gallery.length > 0 && <ImageGallery image={gallery} onClick={this.onOpenModal}/>}
     {isLoading && <Loader/>}
     {gallery.length > 0 && <Button onLoadMore= {this.onLoadMore} isLoading={isLoading}/>}
-    {modalGallery && <Modal showModal = {this.onModalClose} url ={this.onOpenModal}/>}
+    {modalGallery && <Modal showModal = {this.onModalClose} url ={this.onOpenModal}/>} 
 
     </>
     )
